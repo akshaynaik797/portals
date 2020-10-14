@@ -1,0 +1,2 @@
+actions = send keys, click, get attribute
+by = xpath, name
