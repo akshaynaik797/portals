@@ -15,7 +15,7 @@ wait_period = 25
 
 captcha_img_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[2]/img'
 captcha_enter_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[1]/input'
-username_xpath = '/html/body/div[1]/section/section/div[3]/form/div[1]/input'
+username_xpath = '/html/body/div[1]/section/section/div[3]/form/div[1]/img'
 password_xpath = '//*[@id="exampleInputPassword1"]'
 sign_in_xpath = '/html/body/div[1]/section/section/div[3]/form/div[4]/div/button[1]'
 cancel_bt_xpath = '/html/body/div[1]/div/div/form/div[2]/button'
@@ -34,6 +34,7 @@ amount_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[2]/div[4]/di
 remarks_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[3]/textarea'
 
 driver.get(website)
+
 WebDriverWait(driver, wait_period).until(EC.visibility_of_element_located((By.XPATH, username_xpath))).send_keys(username)
 WebDriverWait(driver, wait_period).until(EC.visibility_of_element_located((By.XPATH, password_xpath))).send_keys(password)
 
