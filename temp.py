@@ -3,7 +3,7 @@ import os
 from time import sleep
 
 # from settings import driver, EC, WebDriverWait, By
-from functions import click, send_keys, get_attribute, driver
+from functions import click, send_keys, get_attribute, driver, drag_and_drop_file
 
 website = 'https://provider.ihx.in/#/'
 username, password = 'amitmehta1000976@medibuddy.in', 'ppg@1234'
@@ -33,6 +33,13 @@ dates_submit_btn_xpath = '/html/body/div[1]/div/div/div[3]/button'
 files_upload_btn_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[4]/div/div[2]/div[1]/div'
 amount_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[2]/div[4]/div/input'
 remarks_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[3]/textarea'
+temp_xpath = '//*[@id="holder"]'
+website = "https://bestvpn.org/html5demos/file-api/"
+driver.get(website)
+a = driver.find_element_by_xpath(temp_xpath)
+drag_and_drop_file(a, os.path.abspath('capcha.jpeg'))
+
+
 
 driver.get(website)
 send_keys(xpath,username_xpath,username)
@@ -86,3 +93,4 @@ WebDriverWait(driver, wait_period).until(EC.visibility_of_element_located((By.XP
 # WebDriverWait(driver, wait_period).until(EC.element_to_be_clickable((By.XPATH, files_upload_btn_xpath))).click()
 sleep(60)
 driver.close()
+

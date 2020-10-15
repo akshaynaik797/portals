@@ -32,7 +32,7 @@ dates_submit_btn_xpath = '/html/body/div[1]/div/div/div[3]/button'
 files_upload_btn_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[4]/div/div[2]/div[1]/div'
 amount_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[2]/div[4]/div/input'
 remarks_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[3]/textarea'
-
+xpath = '//*[@id="finalDischargeBody"]/form/div[1]/div[4]/div/div[2]/div[1]/div'
 driver.get(website)
 
 WebDriverWait(driver, wait_period).until(EC.visibility_of_element_located((By.XPATH, username_xpath))).send_keys(username)
