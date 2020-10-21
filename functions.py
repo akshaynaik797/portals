@@ -26,6 +26,13 @@ def click(by, path_value):
         except TimeoutException:
             while 1:
                 try:
+                    while 1:
+                        sleep(30)
+                        state = input("do you want to wait:y/n")
+                        if state == 'y':
+                            continue
+                        else:
+                            break
                     WebDriverWait(driver, wait). \
                         until(EC.visibility_of_element_located((By.XPATH, path_value))).click()
                     return True
@@ -44,6 +51,7 @@ def click(by, path_value):
         return False
 
 
+
 def send_keys(by, path_value, input):
     global wait_period
     wait = wait_period
@@ -55,9 +63,30 @@ def send_keys(by, path_value, input):
         except TimeoutException:
             while 1:
                 try:
-                    driver.find_element_by_xpath(path_value).send_keys('asd')
                     WebDriverWait(driver, wait). \
                         until(EC.visibility_of_element_located((By.XPATH, path_value))).send_keys(input)
+                    return True
+                except TimeoutException:
+                    wait = wait * 2
+                    print(f"waiting for {wait} seconds.")
+                    sleep(wait)
+                    continue
+                except:
+                    log_exceptions()
+                    return False
+        except:
+            log_exceptions()
+            return False
+    elif by == 'name':
+        try:
+            WebDriverWait(driver, wait) \
+                .until(EC.visibility_of_element_located((By.NAME, path_value))).send_keys(input)
+            return True
+        except TimeoutException:
+            while 1:
+                try:
+                    WebDriverWait(driver, wait). \
+                        until(EC.visibility_of_element_located((By.NAME, path_value))).send_keys(input)
                     return True
                 except TimeoutException:
                     wait = wait * 2
