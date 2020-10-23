@@ -1,5 +1,7 @@
 from time import sleep
-from requests import get  # to make GET request
+from tkinter import messagebox, Tk
+
+from requests import get
 from make_log import log_exceptions
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -34,25 +36,18 @@ def click(by, path_value):
             return True
         except TimeoutException:
             while 1:
+                root = Tk()
+                root.withdraw()
+                state = messagebox.askokcancel("Confirm", "Do you want to wait?")
+                root.update()
                 try:
-                    while 1:
-                        sleep(30)
-                        state = input("do you want to wait:y/n")
-                        if state == 'y':
-                            continue
-                        else:
-                            break
-                    WebDriverWait(driver, wait). \
-                        until(EC.visibility_of_element_located((By.XPATH, path_value))).click()
-                    return True
+                    if state == True:
+                        WebDriverWait(driver, wait) \
+                            .until(EC.visibility_of_element_located((By.XPATH, path_value))).click()
+                    else:
+                        return 1
                 except TimeoutException:
-                    wait = wait * 2
-                    print(f"waiting for {wait} seconds.")
-                    sleep(wait)
                     continue
-                except:
-                    log_exceptions()
-                    return False
         except:
             log_exceptions()
             return False
