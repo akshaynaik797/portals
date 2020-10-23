@@ -1,8 +1,17 @@
 from time import sleep
 from requests import get  # to make GET request
-from settings import driver, EC, WebDriverWait, By, TimeoutException
 from make_log import log_exceptions
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from settings import webdriver_path
 
+chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument("--headless")
+
+driver = webdriver.Chrome(webdriver_path, options=chrome_options)
 wait_period = 10
 
 
@@ -49,7 +58,6 @@ def click(by, path_value):
             return False
     else:
         return False
-
 
 
 def send_keys(by, path_value, input):
@@ -159,6 +167,7 @@ JS_DROP_FILE = """
     document.body.appendChild(input);
     return input;
 """
+
 
 def drag_and_drop_file(drop_target, path):
     driver = drop_target.parent

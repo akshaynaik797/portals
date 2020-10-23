@@ -1,16 +1,20 @@
 import base64
 import os
 from time import sleep
+from tkinter import messagebox
 from functions import drag_and_drop_file, send_keys, click, get_attribute
-from settings import driver, EC, WebDriverWait, By
+from functions import driver, EC, WebDriverWait, By
 
 website = 'https://provider.ihx.in/#/'
 username, password = 'amitmehta1000976@medibuddy.in', 'ppg@1234'
 
 claimno = '23030097'
-doa, dod = '10/21/2020', '10/21/2020'
+doa, dod = '10/23/2020', '10/23/2020'
 file_name = 'capcha.jpeg'
 wait_period = 25
+amount = '999'
+remarks = 'discharge'
+files = ['img.jpg']
 
 
 captcha_img_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[2]/img'
@@ -56,9 +60,10 @@ click('xpath', upload_files_xpath)
 send_keys('xpath', doa_input_xpath, doa)
 send_keys('xpath', dod_input_xpath, dod)
 click('xpath', dates_submit_btn_xpath)
-send_keys('xpath', amount_input_xpath, '999')
-send_keys('xpath', remarks_input_xpath, 'discharge')
+send_keys('xpath', amount_input_xpath, amount)
+send_keys('xpath', remarks_input_xpath, remarks)
 a = WebDriverWait(driver, wait_period).until(EC.visibility_of_element_located((By.XPATH, drag_drop_xpath)))
-drag_and_drop_file(a, os.path.abspath('img.jpg'))
+for i in files:
+    drag_and_drop_file(a, os.path.abspath(i))
 sleep(60)
 driver.close()
