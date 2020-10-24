@@ -15,6 +15,14 @@ def get_captcha_no():
 captcha_no = StringVar()
 captcha_no_label = Label(cap_gui, text="Enter Capcha", width=10).grid(row=0, column=0)
 captcha_no_entry = Entry(cap_gui, textvariable=captcha_no).grid(row=0, column=1, pady=15)
+try:
+    img = ImageTk.PhotoImage(Image.open('capcha.jpeg'))
+except FileNotFoundError:
+    messagebox.showerror("Error", "Capcha image not found")
+    exit()
+
+panel = Label(cap_gui, image=img).grid(row=0, column=2, pady=15)
+captcha_no_button = Button(cap_gui, text="OK", command=get_captcha_no).grid(row=1, column=0)
 
 def wait_popup():
     root = Tk()
@@ -26,15 +34,6 @@ def wait_popup():
 
 
 def capcha_popup():
-    try:
-        img = ImageTk.PhotoImage(Image.open('capcha.jpeg'))
-    except FileNotFoundError:
-        messagebox.showerror("Error", "Capcha image not found")
-        exit()
-
-    panel = Label(cap_gui, image=img).grid(row=0, column=2, pady=15)
-    captcha_no_button = Button(cap_gui, text="OK", command=get_captcha_no).grid(row=1, column=0)
-
     cap_gui.mainloop()
     return captcha_no.get()
 

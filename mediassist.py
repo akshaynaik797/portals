@@ -3,12 +3,13 @@ import os
 from time import sleep
 from functions import drag_and_drop_file, send_keys, click, get_attribute
 from functions import driver, EC, WebDriverWait, By
+from gui_functions import capcha_popup
 
 website = 'https://provider.ihx.in/#/'
 username, password = 'amitmehta1000976@medibuddy.in', 'ppg@1234'
 
 claimno = '23030097'
-doa, dod = '10/23/2020', '10/23/2020'
+doa, dod = '10/24/2020', '10/24/2020'
 file_name = 'capcha.jpeg'
 wait_period = 25
 amount = '999'
@@ -39,14 +40,14 @@ drag_drop_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[4]/div/div[2]/d
 
 
 driver.get(website)
-click('xpath', cancel_bt_xpath)
+# click('xpath', cancel_bt_xpath)
 send_keys('xpath', username_xpath, username)
 send_keys('xpath', password_xpath, password)
 src = get_attribute('xpath', captcha_img_xpath, "src")
 with open(file_name, "wb") as fp:
     temp = src.partition(',')[2]
     fp.write(base64.decodebytes(bytes(temp, encoding='utf8')))
-captcha_input = input('Enter capcha data:')
+captcha_input = capcha_popup()
 if os.path.exists(file_name):
     os.remove(file_name)
 send_keys('xpath', captcha_enter_xpath, captcha_input)
@@ -65,5 +66,5 @@ send_keys('xpath', remarks_input_xpath, remarks)
 a = WebDriverWait(driver, wait_period).until(EC.visibility_of_element_located((By.XPATH, drag_drop_xpath)))
 for i in files:
     drag_and_drop_file(a, os.path.abspath(i))
-sleep(10)
+sleep(100)
 driver.close()

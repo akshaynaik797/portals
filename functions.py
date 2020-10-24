@@ -9,6 +9,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from settings import webdriver_path
+from gui_functions import wait_popup
 
 chrome_options = webdriver.ChromeOptions()
 # chrome_options.add_argument("--headless")
@@ -36,10 +37,7 @@ def click(by, path_value):
             return True
         except TimeoutException:
             while 1:
-                root = Tk()
-                root.withdraw()
-                state = messagebox.askokcancel("Confirm", "Do you want to wait?")
-                root.update()
+                state = wait_popup()
                 try:
                     if state == True:
                         WebDriverWait(driver, wait) \
