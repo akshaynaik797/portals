@@ -8,13 +8,13 @@ from gui_functions import capcha_popup
 website = 'https://provider.ihx.in/#/'
 username, password = 'amitmehta1000976@medibuddy.in', 'ppg@1234'
 
-claimno = '23030097'
-doa, dod = '10/24/2020', '10/24/2020'
+claimno = '101661420'
+doa, dod = '10/27/2020', '10/27/2020'
 file_name = 'capcha.jpeg'
 wait_period = 25
 amount = '999'
 remarks = 'discharge'
-files = ['img.jpg', 'img1.jpg']
+files = ['attach/1603516999_101676374_3943.pdf', 'attach/8_VNUPEHPG.869375402960_duly_signed_doc_1603511124.pdf']
 
 
 captcha_img_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[2]/img'
@@ -36,6 +36,7 @@ dates_submit_btn_xpath = '/html/body/div[1]/div/div/div[3]/button'
 files_upload_btn_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[4]/div/div[2]/div[1]/div'
 amount_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[2]/div[4]/div/input'
 remarks_input_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[3]/textarea'
+# drag_drop_xpath = '/html/body/div[1]/div/div/div/div[1]/ng-form/div[3]/div/div[1]'
 drag_drop_xpath = '/html/body/div[1]/div/div/div/form/div[1]/div[4]/div/div[2]/div[1]/div'
 
 
@@ -66,5 +67,5 @@ send_keys('xpath', remarks_input_xpath, remarks)
 a = WebDriverWait(driver, wait_period).until(EC.visibility_of_element_located((By.XPATH, drag_drop_xpath)))
 for i in files:
     drag_and_drop_file(a, os.path.abspath(i))
-sleep(100)
+sleep(1000)
 driver.close()
