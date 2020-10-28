@@ -13,7 +13,7 @@ mygui = Tk(className='Portal data entry')
 mss_no = StringVar()
 mss_no_label = Label(mygui, text="MSS NO", width=10).grid(row=0, column=0)
 mss_no_entry = Entry(mygui, textvariable=mss_no).grid(row=0, column=1, pady=15)
-mss_no.set("MSS-1001210")
+# mss_no.set("MSS-1001210")
 
 insname = StringVar()
 ttk.Label(mygui, text="Insurer Name", width=10).grid(row=0, column=2, pady=15, padx=15)
@@ -47,6 +47,7 @@ def save_details():
     data_dict['insname'] = insname.get()
     data_dict['login_details'] = db_functions.get_portal_details_dict(insname.get(), process.get())
     data_dict['claimno'] = temp_json['0']['ClaimId']
+    data_dict['mss_no'] = mss_no.get()
     data = json.dumps(data_dict)
     db_functions.save_mss_no_data(mss_no.get(), data)
     messagebox.showinfo(message="Details saved")

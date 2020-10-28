@@ -1,4 +1,10 @@
-from gui_functions import wait_popup
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
 
-state = wait_popup()
+dotenv_path = join(dirname(__file__), 'config.env')
+load_dotenv(dotenv_path)
+
+USERNAME = os.environ.get("username")
+SECRET_KEY = os.environ.get("password")
 pass

@@ -1,20 +1,32 @@
 import base64
 import os
+import json
 from time import sleep
 from functions import drag_and_drop_file, send_keys, click, get_attribute
 from functions import driver, EC, WebDriverWait, By
 from gui_functions import capcha_popup
+from functions import download_file
 
-website = 'https://provider.ihx.in/#/'
-username, password = 'amitmehta1000976@medibuddy.in', 'ppg@1234'
 
-claimno = '101661420'
-doa, dod = '10/27/2020', '10/27/2020'
+with open('temp.json') as json_file:
+    data_dict = json.load(json_file)
+
+
+website = data_dict['login_details']['website']
+username = data_dict['login_details']['username']
+password = data_dict['login_details']['password']
+
+claimno = data_dict['claimno']
+doa, dod = '10/28/2020', '10/28/2020'
 file_name = 'capcha.jpeg'
 wait_period = 25
-amount = '999'
-remarks = 'discharge'
-files = ['attach/1603516999_101676374_3943.pdf', 'attach/8_VNUPEHPG.869375402960_duly_signed_doc_1603511124.pdf']
+amount = data_dict['amount_input']
+remarks = data_dict['remarks_input']
+file_links = [i['Doc'] for i in data_dict['drop_file_btn']]
+files = []
+for i, j in enumerate(file_links):
+    download_file(j, f'attach/{i}.pdf')
+    files.append(os.path.abspath(f'attach/{i}.pdf'))
 
 
 captcha_img_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[2]/img'
