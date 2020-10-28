@@ -13,11 +13,12 @@ mygui = Tk(className='Portal data entry')
 mss_no = StringVar()
 mss_no_label = Label(mygui, text="MSS NO", width=10).grid(row=0, column=0)
 mss_no_entry = Entry(mygui, textvariable=mss_no).grid(row=0, column=1, pady=15)
-mss_no.set("")
+mss_no.set("MSS-1001210")
 
 insname = StringVar()
 ttk.Label(mygui, text="Insurer Name", width=10).grid(row=0, column=2, pady=15, padx=15)
 insname_entry = Entry(mygui, textvariable=insname).grid(row=0, column=3)
+insname.set('')
 
 process = StringVar()
 ttk.Label(mygui, text="Process", width=10).grid(row=0, column=4, pady=15, padx=15)
@@ -27,22 +28,31 @@ process_list.grid(row=0, column=5)
 
 
 def get_ins_process():
+    global temp_json
     url = 'https://vnusoftware.com/iclaimmax/api/preauth/'
     myobj = {'pid': mss_no.get()}
-    x = requests.post(url, data=myobj)
-    b = x.json()
-    # insname = b['0']['insname']
-    process = tuple(b.keys())
-    insname.set(b['0']['insname'])
-    process_list['values'] = ('msg', 'preauth', '0', 'Enhancement', 'Query Replied', 'Claim')
+    response = requests.post(url, data=myobj)
+    if response.ok is True and response.status_code == 200:
+        temp_json = b = response.json()
+        process = tuple(b.keys())
+        insname.set(b['0']['insname'])
+        process_list['values'] = process
 
 
 def save_details():
+    global text_variable_dict
+    map_dict = {i: text_variable_dict[i].get() for i in text_variable_dict}
+    data_dict = {i: temp_json[process.get()][0][text_variable_dict[i].get()] for i in map_dict}
+    data_dict['process'] = process.get()
+    data_dict['insname'] = insname.get()
+    data_dict['login_details'] = db_functions.get_portal_details_dict(insname.get(), process.get())
+    data_dict['claimno'] = temp_json['0']['ClaimId']
+    data = json.dumps(data_dict)
+    db_functions.save_mss_no_data(mss_no.get(), data)
     messagebox.showinfo(message="Details saved")
     pass
 
 def get_field_list():
-    a, b = insname.get(), process.get()
     global text_variable_dict
     with open('temp.json') as fp:
         a = json.load(fp)

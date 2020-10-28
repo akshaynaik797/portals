@@ -3,6 +3,14 @@ import sqlite3
 from settings import dbname
 
 
+def save_mss_no_data(mss_no, data):
+    query = f"insert into mss_no_data values ('{mss_no}', '{data}')"
+    with sqlite3.connect(dbname) as con:
+        cur = con.cursor()
+        cur.execute(query)
+        return True
+
+
 def get_field_list(insname, process):
     query = f"select field from paths where insurer='{insname}' and process='{process}' and is_input=1"
     with sqlite3.connect(dbname) as con:
