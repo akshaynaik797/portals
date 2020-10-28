@@ -42,8 +42,9 @@ def click(by, path_value):
                     if state == True:
                         WebDriverWait(driver, wait) \
                             .until(EC.visibility_of_element_located((By.XPATH, path_value))).click()
-                    else:
                         return 1
+                    else:
+                        return 0
                 except TimeoutException:
                     continue
         except:

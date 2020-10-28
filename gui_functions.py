@@ -19,7 +19,10 @@ captcha_no_entry = Entry(cap_gui, textvariable=captcha_no).grid(row=0, column=1,
 def wait_popup():
     root = Tk()
     root.withdraw()
-    cap_gui.withdraw()
+    try:
+        cap_gui.withdraw()
+    except:
+        pass
     state = messagebox.askokcancel("Confirm", "Do you want to wait?")
     root.update()
     return state
