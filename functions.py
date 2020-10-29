@@ -1,21 +1,21 @@
 from time import sleep
-from tkinter import messagebox, Tk
 
 from requests import get
-from make_log import log_exceptions
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
-from settings import webdriver_path
+from selenium.webdriver.support.ui import WebDriverWait
+
 from gui_functions import wait_popup
+from make_log import log_exceptions
+from settings import WAIT_PERIOD, WEBDRIVER_FOLDER_PATH
 
 chrome_options = webdriver.ChromeOptions()
 # chrome_options.add_argument("--headless")
 
-driver = webdriver.Chrome(webdriver_path, options=chrome_options)
-wait_period = 10
+driver = webdriver.Chrome(WEBDRIVER_FOLDER_PATH, options=chrome_options)
+wait_period = int(WAIT_PERIOD)
 
 
 def download_file(url, file_name):

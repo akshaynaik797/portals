@@ -1,14 +1,15 @@
 import json
 import os
 import subprocess
-from tkinter import Tk, Label, Entry, StringVar, Button, ttk, messagebox
-
+from tkinter import Tk, Label, Entry, StringVar, Button
+from settings import API_SERVER_URL
+from make_log import custom_log_data
 import requests
 
 
 
 text_variable_dict = {}
-url = 'http://127.0.0.1:5000/'
+url = API_SERVER_URL
 
 mygui = Tk(className='Portal Run')
 
@@ -22,13 +23,18 @@ def run_selenium():
     myobj = {'mss_no': mss_no.get()}
     response = requests.post(url+api, data=myobj)
     if response.ok is True and response.status_code == 200:
-        b = response.json()
+        data_dict = response.json()
         if os.path.exists("temp.json"):
             os.remove("temp.json")
         with open("temp.json", "w") as outfile:
-            json.dump(b, outfile)
-        subprocess.run(["python", "mediassist_final.py"])
-    pass
+            json.dump(data_dict, outfile)
+        exec_file = data_dict['insname']+'_'+data_dict['process']+".py"
+        if os.path.exists(exec_file):
+            subprocess.run(["python", data_dict['insname']+'_'+data_dict['process']+".py"])
+        else:
+            print(exec_file + 'not found.')
+    else:
+        custom_log_data(filename="api_fail.log", url=api+url, responseok=response.ok, statuscode=response.status_code)
 
 loginButton = Button(mygui, text="Submit", command=run_selenium).grid(row=1, column=0)
 closeButton = Button(mygui, text="Close", command=mygui.destroy).grid(row=1, column=1)

@@ -13,7 +13,7 @@ mygui = Tk(className='Portal data entry')
 mss_no = StringVar()
 mss_no_label = Label(mygui, text="MSS NO", width=10).grid(row=0, column=0)
 mss_no_entry = Entry(mygui, textvariable=mss_no).grid(row=0, column=1, pady=15)
-# mss_no.set("MSS-1001210")
+mss_no.set("MSS-1001210")
 
 insname = StringVar()
 ttk.Label(mygui, text="Insurer Name", width=10).grid(row=0, column=2, pady=15, padx=15)
@@ -55,9 +55,7 @@ def save_details():
 
 def get_field_list():
     global text_variable_dict
-    with open('temp.json') as fp:
-        a = json.load(fp)
-        values = tuple(a['Claim'][0].keys())
+    values = tuple(temp_json['Claim'][0].keys())
 
     # saveButton = Button(mygui, text="Save details", command=save_details).grid(row=1, column=2)
 

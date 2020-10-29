@@ -1,7 +1,7 @@
 import sqlite3
 
-from settings import dbname
-
+from settings import DBNAME
+dbname = DBNAME
 
 def save_mss_no_data(mss_no, data):
     query = f"insert into mss_no_data values ('{mss_no}', '{data}')"
@@ -37,9 +37,10 @@ def get_portal_details_dict(insname, process):
         cur = con.cursor()
         cur.execute(query)
         result = cur.fetchone()
-        result = {'username':result[0], 'password':result[1], 'website':result[2]}
-        return result
-
+        if result is not None:
+            result = {'username':result[0], 'password':result[1], 'website':result[2]}
+            return result
+    return {}
 
 
 if __name__ == "__main__":
