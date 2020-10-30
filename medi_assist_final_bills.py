@@ -2,6 +2,7 @@ import base64
 import json
 import os
 from time import sleep
+from urllib.parse import urlparse
 
 from functions import download_file
 from functions import drag_and_drop_file, send_keys, click, get_attribute
@@ -19,7 +20,7 @@ try:
     username = data_dict['login_details']['username']
     password = data_dict['login_details']['password']
 
-    claimno = data_dict['claim_no']
+    claimno, mss_no = data_dict['claim_no'], data_dict['mss_no']
     doa, dod = data_dict['doa'], data_dict['dod']
     file_name = 'capcha.jpeg'
     wait_period = int(WAIT_PERIOD)
@@ -28,8 +29,9 @@ try:
     file_links = data_dict['docs']
     files = []
     for i, j in enumerate(file_links):
-        download_file(j, f'attach/{i}.pdf')
-        files.append(os.path.abspath(f'attach/{i}.pdf'))
+        file_name = os.path.basename(urlparse(j).path)
+        download_file(j, f'attach/{mss_no}/{file_name}')
+        files.append(os.path.abspath(f'attach/{mss_no}/{file_name}'))
 
     captcha_img_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[2]/img'
     captcha_enter_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[1]/input'

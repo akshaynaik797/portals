@@ -1,4 +1,5 @@
 from time import sleep
+import os
 
 from requests import get
 from selenium import webdriver
@@ -20,6 +21,8 @@ wait_period = int(WAIT_PERIOD)
 
 def download_file(url, file_name):
     # open in binary mode
+    if not os.path.exists(os.path.split(file_name)[0]):
+        os.mkdir(os.path.split(file_name)[0])
     with open(file_name, "wb") as file:
         # get request
         response = get(url)
