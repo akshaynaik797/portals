@@ -4,8 +4,8 @@ import os
 from time import sleep
 from urllib.parse import urlparse
 
-from functions import drag_and_drop_file, send_keys, click, get_attribute, download_file
 from functions import driver, EC, WebDriverWait, By
+from functions import send_keys, click, get_attribute, download_file
 from gui_functions import capcha_popup
 from make_log import log_exceptions
 from settings import WAIT_PERIOD

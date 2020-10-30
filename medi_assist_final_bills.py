@@ -3,6 +3,7 @@ import json
 import os
 from time import sleep
 from urllib.parse import urlparse
+from datetime import datetime
 
 from functions import download_file
 from functions import drag_and_drop_file, send_keys, click, get_attribute
@@ -21,8 +22,8 @@ try:
     password = data_dict['login_details']['password']
 
     claimno, mss_no = data_dict['claim_no'], data_dict['mss_no']
-    doa, dod = data_dict['doa'], data_dict['dod']
-    file_name = 'capcha.jpeg'
+    doa, dod = datetime.strptime(data_dict['doa'],'%d/%m/%Y').strftime('%m/%d/%Y'), datetime.strptime(data_dict['dod'],'%d/%m/%Y').strftime('%m/%d/%Y')
+    capcha_img = 'capcha.jpeg'
     wait_period = int(WAIT_PERIOD)
     amount = data_dict['amount']
     remarks = data_dict['remark']
@@ -61,7 +62,7 @@ try:
     send_keys('xpath', username_xpath, username)
     send_keys('xpath', password_xpath, password)
     src = get_attribute('xpath', captcha_img_xpath, "src")
-    with open(file_name, "wb") as fp:
+    with open(capcha_img, "wb") as fp:
         temp = src.partition(',')[2]
         fp.write(base64.decodebytes(bytes(temp, encoding='utf8')))
     captcha_input = capcha_popup()

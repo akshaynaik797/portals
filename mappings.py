@@ -30,8 +30,7 @@ def query_reply(data_dict, insname, process, mss_no, claim_no):
 def final_bills(data_dict, insname, process, mss_no, claim_no):
     try:
         if 'Claim' in data_dict:
-            doa, dod = data_dict['Claim'][0]['Date_Of_Admission'], data_dict['Claim'][0][
-                'Date_Of_Discharge']
+            doa, dod = data_dict['Claim'][0]['Date_Of_Admission'], data_dict['Claim'][0]['Date_Of_Discharge']
             amount, remark = data_dict['Claim'][0]['Cliamed_Amount'], data_dict['Claim'][0][
                 'Remark']
             docs = [i['Doc'] for i in data_dict['Claim'][0]['Doc']]
