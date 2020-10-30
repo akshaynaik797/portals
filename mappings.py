@@ -43,7 +43,7 @@ def final_bills(data_dict, insname, process, mss_no, claim_no):
                 'doa': doa,
                 'dod': dod,
                 'amount': amount,
-                'remark': remark,
+                'remark': 'final bill',
                 'docs': docs,
                 'login_details': db_functions.get_portal_details_dict(insname, process)
             }
