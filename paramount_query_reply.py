@@ -1,18 +1,28 @@
-import base64
+import json
 import os
 from time import sleep
-from functions import drag_and_drop_file, send_keys, click, get_attribute
-from functions import driver, EC, WebDriverWait, By
-from gui_functions import capcha_popup
+from urllib.parse import urlparse
 
-website = 'https://provider.paramounttpa.com/Login.aspx'
-username, password = 'NEWBALHOSP', 'PPG110092'
+from functions import driver, download_file
+from functions import send_keys, click
+from settings import WAIT_PERIOD
 
-ccn = '4781468'
-doa, dod = '27/27/2020', '28/10/2020'
-amount = '999'
-remarks = 'query reply'
-files = ['attach/1603516999_101676374_3943.pdf', 'attach/8_VNUPEHPG.869375402960_duly_signed_doc_1603511124.pdf']
+with open('temp.json') as json_file:
+    data_dict = json.load(json_file)
+
+website = data_dict['login_details']['website']
+username = data_dict['login_details']['username']
+password = data_dict['login_details']['password']
+claimno, mss_no = data_dict['claim_no'], data_dict['mss_no']
+# claimno = '4781468'
+wait_period = WAIT_PERIOD
+remarks = data_dict['remark']
+file_links = data_dict['docs']
+files = []
+for i, j in enumerate(file_links):
+    file_name = os.path.basename(urlparse(j).path)
+    download_file(j, f'attach/{mss_no}/{file_name}')
+    files.append(os.path.abspath(f'attach/{mss_no}/{file_name}'))
 
 username_input = '/html/body/form/div[3]/div[2]/div[1]/div/div/div/div[2]/fieldset/input[1]'
 password_input = '/html/body/form/div[3]/div[2]/div[1]/div/div/div/div[2]/fieldset/input[2]'
@@ -38,7 +48,7 @@ send_keys('xpath', password_input, password)
 click('xpath', login_btn)
 click('xpath', e_cashless_btn)
 click('xpath', enhancement_request_btn)
-send_keys('xpath', ccn_input, ccn)
+send_keys('xpath', ccn_input, claimno)
 click('xpath', ccn_search_btn)
 send_keys('xpath', remark_input, remarks)
 for i in files:
