@@ -1,20 +1,32 @@
 import base64
+import json
 import os
 from time import sleep
-from functions import drag_and_drop_file, send_keys, click, get_attribute
+from urllib.parse import urlparse
+
+from functions import drag_and_drop_file, send_keys, click, get_attribute, download_file
 from functions import driver, EC, WebDriverWait, By
 from gui_functions import capcha_popup
+from settings import WAIT_PERIOD
 
-website = 'https://provider.ihx.in/#/'
-username, password = 'amitmehta1000976@medibuddy.in', 'ppg@1234'
+with open('temp.json') as json_file:
+    data_dict = json.load(json_file)
 
-claimno = '101695480'
-doa, dod = '10/28/2020', '10/28/2020'
-file_name = 'capcha.jpeg'
-wait_period = 25
-amount = '999'
-remarks = 'discharge'
-files = ['attach/1603516999_101676374_3943.pdf', 'attach/8_VNUPEHPG.869375402960_duly_signed_doc_1603511124.pdf']
+website = data_dict['login_details']['website']
+username = data_dict['login_details']['username']
+password = data_dict['login_details']['password']
+remarks = data_dict['remark']
+
+claimno, mss_no = data_dict['claim_no'], data_dict['mss_no']
+claimno = 23104228
+captcha_img = 'capcha.jpeg'
+wait_period = WAIT_PERIOD
+files = []
+file_links = data_dict['docs']
+for i, j in enumerate(file_links):
+    file_name = os.path.basename(urlparse(j).path)
+    download_file(j, f'attach/{mss_no}/{file_name}')
+    files.append(os.path.abspath(f'attach/{mss_no}/{file_name}'))
 
 
 captcha_img_xpath = '/html/body/div[1]/section/section/div[3]/form/div[3]/div[2]/img'
@@ -51,7 +63,7 @@ driver.get(website)
 send_keys('xpath', username_xpath, username)
 send_keys('xpath', password_xpath, password)
 src = get_attribute('xpath', captcha_img_xpath, "src")
-with open(file_name, "wb") as fp:
+with open(captcha_img, "wb") as fp:
     temp = src.partition(',')[2]
     fp.write(base64.decodebytes(bytes(temp, encoding='utf8')))
 captcha_input = capcha_popup()

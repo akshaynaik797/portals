@@ -16,7 +16,7 @@ mygui = Tk(className='Portal Run')
 mss_no = StringVar()
 mss_no_label = Label(mygui, text="MSS NO", width=10).grid(row=0, column=0)
 mss_no_entry = Entry(mygui, textvariable=mss_no).grid(row=0, column=1, pady=15)
-mss_no.set("MSS-1001210")
+mss_no.set("MSS-1001560")
 
 def run_selenium():
     api = '/get_mss_no_details'
