@@ -4,7 +4,7 @@ import sqlite3
 import requests
 from flask import Flask, request, jsonify
 
-import db_functions
+import mappings
 app = Flask(__name__)
 dbname = 'database1.db'
 
@@ -39,27 +39,11 @@ def get_mss_no_details():
                 if result1 is not None:
                     if result2 is not None:
                         if result2[0] == 'final_bills':
-                            if 'Claim' in data_dict:
-                                doa, dod = data_dict['Claim'][0]['Date_Of_Admission'], data_dict['Claim'][0][
-                                    'Date_Of_Discharge']
-                                amount, remark = data_dict['Claim'][0]['Cliamed_Amount'], data_dict['Claim'][0][
-                                    'Remark']
-                                docs = [i['Doc'] for i in data_dict['Claim'][0]['Doc']]
-                                response = {
-                                    'mss_no': mss_no,
-                                    'claim_no': claim_no,
-                                    'insname': result1[0],
-                                    'process': result2[0],
-                                    'doa': doa,
-                                    'dod': dod,
-                                    'amount': amount,
-                                    'remark': remark,
-                                    'docs': docs,
-                                    'login_details': db_functions.get_portal_details_dict(result1[0], result2[0])
-                                }
-                                return jsonify(response)
-                            else:
-                                return jsonify('claim data not found')
+                            response = mappings.final_bills(data_dict, result1[0], result2[0], mss_no, claim_no)
+                            return jsonify(response)
+                        elif result2[0] == 'query_reply':
+                            response = mappings.query_reply(data_dict, result1[0], result2[0], mss_no, claim_no)
+                            return jsonify(response)
                         else:
                             return jsonify('process not found')
                     else:
