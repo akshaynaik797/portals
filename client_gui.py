@@ -32,7 +32,7 @@ def run_selenium():
         if os.path.exists(exec_file):
             subprocess.run(["python", data_dict['insname']+'_'+data_dict['process']+".py"])
         else:
-            print(exec_file + 'not found.')
+            print(exec_file + ' not found.')
     else:
         custom_log_data(filename="api_fail.log", url=api+url, responseok=response.ok, statuscode=response.status_code)
 

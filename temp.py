@@ -1,4 +1,8 @@
-from datetime import datetime
-a = '28/10/2020'
-b = datetime.strptime(a,'%d/%m/%Y').strftime('%m/%d/%Y')
+import re
+
+a, b = '56465323', '53465-56'
+d = b
+
+if '-' in d:
+    d = d.split('-')[0]
 pass
