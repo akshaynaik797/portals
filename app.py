@@ -37,15 +37,13 @@ def get_mss_no_details():
                 cur.execute(q1)
                 result2 = cur.fetchone()
                 if result1 is not None:
-                    if result2 is not None:
-                        if result2[0] == 'final_bills':
-                            response = mappings.final_bills(data_dict, result1[0], result2[0], mss_no, claim_no)
+                    if 'Claim' in data_dict and 'Query Replied' in data_dict:
+                        if data_dict['Claim'] != '':
+                            response = mappings.final_bills(data_dict, result1[0], 'final_bills', mss_no, claim_no)
                             return jsonify(response)
-                        elif result2[0] == 'query_reply':
-                            response = mappings.query_reply(data_dict, result1[0], result2[0], mss_no, claim_no)
+                        elif len(data_dict['Query Replied']) > 0:
+                            response = mappings.query_reply(data_dict, result1[0], 'query_reply', mss_no, claim_no)
                             return jsonify(response)
-                        else:
-                            return jsonify('process not found')
                     else:
                         return jsonify('process not found')
                 else:
