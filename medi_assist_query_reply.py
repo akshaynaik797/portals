@@ -21,6 +21,7 @@ try:
     remarks = data_dict['remark']
 
     claimno, mss_no = data_dict['claim_no'], data_dict['mss_no']
+    claimno = '23109348'
     captcha_img = 'capcha.jpeg'
     wait_period = WAIT_PERIOD
     files = []
